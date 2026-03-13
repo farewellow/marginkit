@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">MarginKit Icon Placeholder</title>
+  <desc id="desc">Replace this file with your final brand icon before production launch.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0ea5e9" />
+      <stop offset="100%" stop-color="#14b8a6" />
+    </linearGradient>
+  </defs>
+  <rect x="28" y="28" width="456" height="456" rx="104" fill="url(#bg)" />
+  <path d="M140 362V150h47l69 115 69-115h47v212h-44V230l-58 95h-27l-58-95v132z" fill="#ffffff" />
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">MarginKit Maskable Icon Placeholder</title>
+  <desc id="desc">Maskable icon placeholder. Replace with a final brand asset with safe margins.</desc>
+  <defs>
+    <linearGradient id="bgMask" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0c4a6e" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="url(#bgMask)" />
+  <circle cx="256" cy="256" r="166" fill="#ffffff" fill-opacity="0.14" />
+  <path d="M154 342V170h39l63 104 63-104h39v172h-37V247l-52 85h-26l-52-85v95z" fill="#ffffff" />
+</svg>
