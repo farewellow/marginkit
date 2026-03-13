@@ -18,6 +18,26 @@ export function AnalyticsProvider() {
     trackPageView(pathWithQuery);
   }, [pathname, queryString]);
 
+  if (analyticsConfig.provider === "ga4" && analyticsConfig.gaMeasurementId) {
+    const gaScriptSrc = `https://www.googletagmanager.com/gtag/js?id=${analyticsConfig.gaMeasurementId}`;
+    const gaInitScript = `
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', '${analyticsConfig.gaMeasurementId}', { send_page_view: false });
+    `;
+
+    return (
+      <>
+        <Script src={gaScriptSrc} strategy="afterInteractive" />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {gaInitScript}
+        </Script>
+      </>
+    );
+  }
+
   if (analyticsConfig.provider === "posthog") {
     // TODO: Add PostHog bootstrap script here when enabling NEXT_PUBLIC_ANALYTICS_PROVIDER=posthog.
     return null;

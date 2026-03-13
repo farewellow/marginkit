@@ -38,8 +38,8 @@ Create `.env.local` for local overrides.
 | Variable | Required | Purpose |
 | --- | --- | --- |
 | `NEXT_PUBLIC_SITE_URL` | Recommended | Canonical base URL used by metadata, sitemap, and robots. Example: `https://marginkit.app` |
-| `NEXT_PUBLIC_ANALYTICS_PROVIDER` | Optional | Analytics mode: `none` (default), `plausible`, or `posthog` |
-| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Optional | Required when `NEXT_PUBLIC_ANALYTICS_PROVIDER=plausible` |
+| `NEXT_PUBLIC_ANALYTICS_PROVIDER` | Optional | Analytics mode: `ga4` (default), `none`, `plausible`, or `posthog` |
+| `NEXT_PUBLIC_GA4_MEASUREMENT_ID` | Optional | GA4 Measurement ID override (default in code: `G-EGQ3SWJGGX`) |`r`n| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Optional | Required when `NEXT_PUBLIC_ANALYTICS_PROVIDER=plausible` |
 | `NEXT_PUBLIC_OG_IMAGE_PATH` | Optional | Override default social image path (default: `/opengraph-image`) |
 
 PostHog note:
@@ -116,3 +116,4 @@ Included behavior:
 - [ ] Verify footer links and key navigation routes
 - [ ] Verify `robots.txt` and `sitemap.xml` in production
 - [ ] Submit sitemap in Google Search Console
+

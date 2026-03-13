@@ -5,7 +5,7 @@ export type AnalyticsEventName =
   | "category_opened"
   | "related_tool_clicked";
 
-type AnalyticsProvider = "none" | "plausible" | "posthog";
+type AnalyticsProvider = "none" | "ga4" | "plausible" | "posthog";
 
 interface AnalyticsPayload {
   [key: string]: string | number | boolean | undefined;
@@ -18,6 +18,8 @@ interface PlausibleOptions {
 
 declare global {
   interface Window {
+    dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
     plausible?: (eventName: string, options?: PlausibleOptions) => void;
     posthog?: {
       capture: (eventName: string, properties?: Record<string, unknown>) => void;
@@ -25,11 +27,14 @@ declare global {
   }
 }
 
+const DEFAULT_GA4_MEASUREMENT_ID = "G-EGQ3SWJGGX";
+
 function parseProvider(value: string | undefined): AnalyticsProvider {
-  if (value === "plausible" || value === "posthog") {
+  if (value === "none" || value === "ga4" || value === "plausible" || value === "posthog") {
     return value;
   }
-  return "none";
+
+  return "ga4";
 }
 
 function toSerializablePayload(payload?: AnalyticsPayload): Record<string, string | number | boolean> {
@@ -51,6 +56,7 @@ function getPageUrl(pathname: string): string {
 
 export const analyticsConfig = {
   provider: parseProvider(process.env.NEXT_PUBLIC_ANALYTICS_PROVIDER),
+  gaMeasurementId: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID ?? DEFAULT_GA4_MEASUREMENT_ID,
   plausibleDomain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? ""
 };
 
@@ -60,6 +66,11 @@ export function trackEvent(name: AnalyticsEventName, payload?: AnalyticsPayload)
   if (typeof window === "undefined") return;
 
   const serializedPayload = toSerializablePayload(payload);
+
+  if (analyticsConfig.provider === "ga4" && analyticsConfig.gaMeasurementId && typeof window.gtag === "function") {
+    window.gtag("event", name, serializedPayload);
+    return;
+  }
 
   if (analyticsConfig.provider === "plausible" && typeof window.plausible === "function") {
     window.plausible(name, { props: serializedPayload });
@@ -80,6 +91,14 @@ export function trackPageView(pathname: string) {
   if (typeof window === "undefined" || !isAnalyticsEnabled) return;
 
   const pageUrl = getPageUrl(pathname);
+
+  if (analyticsConfig.provider === "ga4" && analyticsConfig.gaMeasurementId && typeof window.gtag === "function") {
+    window.gtag("config", analyticsConfig.gaMeasurementId, {
+      page_path: pathname,
+      page_location: pageUrl
+    });
+    return;
+  }
 
   if (analyticsConfig.provider === "plausible" && typeof window.plausible === "function") {
     window.plausible("pageview", { u: pageUrl });
