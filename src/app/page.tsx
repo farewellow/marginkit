@@ -4,14 +4,16 @@ import { ArrowRight, Calculator, Layers3, LineChart, Package, ShieldCheck, Trend
 import { CategoryCard } from "@/components/marketing/category-card";
 import { CTASection } from "@/components/marketing/cta-section";
 import { FAQSection } from "@/components/marketing/faq-section";
+import { GuideCard } from "@/components/marketing/guide-card";
 import { PageHero } from "@/components/marketing/page-hero";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import { ToolCard } from "@/components/marketing/tool-card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { featuredTools } from "@/data/tools";
 import { homepageFaqs } from "@/data/faqs";
+import { guides } from "@/data/guides";
+import { featuredTools } from "@/data/tools";
 import { buildMetadata } from "@/lib/seo/metadata";
 
 export const metadata = buildMetadata({
@@ -37,6 +39,8 @@ const steps = [
     icon: LineChart
   }
 ];
+
+const featuredGuides = guides.slice(0, 3);
 
 const benefits = [
   "Built for real sellers",
@@ -198,6 +202,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section id="guides" className="container space-y-5 py-8">
+        <SectionHeading
+          eyebrow="Guides"
+          title="Learn with practical guides"
+          description="Compact analytical pages for operators who want deeper decision context before running calculators."
+        />
+        <div className="grid gap-4 lg:grid-cols-3">
+          {featuredGuides.map((guide) => (
+            <GuideCard key={guide.id} guide={guide} compact />
+          ))}
+        </div>
+        <div>
+          <Button asChild variant="outline">
+            <Link href="/guides">Browse all guides</Link>
+          </Button>
+        </div>
+      </section>
+
       <section className="container space-y-5 py-8">
         <SectionHeading
           eyebrow="FAQ"
@@ -224,7 +246,3 @@ export default function HomePage() {
     </>
   );
 }
-
-
-
-

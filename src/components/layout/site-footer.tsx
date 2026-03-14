@@ -16,6 +16,7 @@ const popularTools = [
 
 const companyLinks = [
   { href: "/about", label: "About" },
+  { href: "/guides", label: "Guides" },
   { href: "/privacy", label: "Privacy" },
   { href: "/terms", label: "Terms" },
   { href: "/contact", label: "Contact" }
