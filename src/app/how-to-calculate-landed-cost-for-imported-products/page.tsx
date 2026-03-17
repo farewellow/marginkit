@@ -1,23 +1,22 @@
 import Link from "next/link";
 
 import { AnalysisLineChart } from "@/components/content/analysis-line-chart";
+import { AnalyticalSectionHeading } from "@/components/content/analytical-section-heading";
 import { ContentCtaBlock } from "@/components/content/content-cta-block";
 import { FormulaBreakdownCard } from "@/components/content/formula-breakdown-card";
 import { OperatorTakeawayCard } from "@/components/content/operator-takeaway-card";
 import { ScenarioComparisonTable } from "@/components/content/scenario-comparison-table";
-import { AnalyticalSectionHeading } from "@/components/content/analytical-section-heading";
 import { SiteBreadcrumbs } from "@/components/layout/site-breadcrumbs";
 import { FAQSection } from "@/components/marketing/faq-section";
 import { RelatedTools } from "@/components/marketing/related-tools";
-
 import { Card, CardContent } from "@/components/ui/card";
 import { buildMetadata } from "@/lib/seo/metadata";
 import type { FAQItem } from "@/types/tools";
 
 export const metadata = buildMetadata({
-  title: "How to Calculate Landed Cost for Imported Products",
+  title: "How to Calculate Landed Cost for Imported Products (Formula + Example)",
   description:
-    "Practical landed-cost analysis for importers: formula, worked scenarios, cost-comparison table, and sensitivity chart for better pricing decisions.",
+    "Learn what landed cost is, what to include (shipping, duty, customs, insurance, handling, fees), and how to calculate landed cost with a practical import example.",
   pathname: "/how-to-calculate-landed-cost-for-imported-products"
 });
 
@@ -45,23 +44,38 @@ const comparisonRows = [
 
 const faqItems: FAQItem[] = [
   {
-    question: "Should VAT and duty be included if they are paid later?",
+    question: "What is landed cost?",
     answer:
-      "Yes. If those costs are required to release and sell inventory, they belong in landed cost and unit economics."
+      "Landed cost is the full cost to bring imported inventory into sellable stock, not just supplier price. It includes logistics, customs-related charges, and handling fees."
   },
   {
-    question: "What is the fastest way to compare two suppliers?",
+    question: "How do you calculate landed cost for imported goods?",
     answer:
-      "Use the same quantity and run both options with full freight, duty, and fee assumptions. Compare landed cost per unit first."
+      "Add product cost, shipping, duties, taxes, insurance, and relevant import handling fees, then divide by confirmed units received."
   },
   {
-    question: "Can landed cost per unit decrease even if freight gets more expensive?",
+    question: "What should be included in landed cost?",
     answer:
-      "Yes, when higher order volume spreads fixed shipment overhead over more units."
+      "Include all shipment-level costs required to release and move goods into inventory: freight, customs duty, VAT/tax, insurance, broker and local handling charges."
   },
   {
-    question: "When is product-cost-only pricing acceptable?",
-    answer: "Only for rough screening. Final pricing should use fully loaded landed cost."
+    question: "Is shipping included in landed cost?",
+    answer: "Yes. International freight and any local delivery needed to receive stock should be included in landed cost."
+  },
+  {
+    question: "Are customs duties part of landed cost?",
+    answer:
+      "Yes. Duties and related customs charges are part of the cost to import goods and should be loaded into landed cost per unit."
+  },
+  {
+    question: "What is a landed cost formula in Excel?",
+    answer:
+      "A common formula is: =(Product+Shipping+Duty+Tax+Insurance+Fees)/UnitsReceived. The key is using complete cost inputs and actual received units."
+  },
+  {
+    question: "How is landed cost different from product cost?",
+    answer:
+      "Product cost is supplier invoice only. Landed cost adds import overhead and gives a decision-grade baseline for pricing and margin."
   }
 ];
 
@@ -77,15 +91,14 @@ export default function LandedCostGuidePage() {
       />
 
       <section className="max-w-4xl space-y-3">
-        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary/90">Operator Guide</p>
+        <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary/90">Landed Cost Calculation Guide</p>
         <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
           How to calculate landed cost for imported products
         </h1>
         <p className="text-sm leading-6 text-muted-foreground sm:text-base">
-          Landed cost is total product cost plus import overhead, divided by actual units received. If you price from product
-          cost only, you usually overestimate margin and underprice risk. Pair this guide with the
-          <Link href="/tools/landed-cost-calculator-importers" className="text-primary hover:text-primary/80"> landed cost calculator</Link>
-          and the <Link href="/import-cost-tools" className="text-primary hover:text-primary/80"> import cost hub</Link>.
+          Landed cost is the total cost to get imported inventory into sellable stock. It includes supplier cost plus shipping,
+          customs duties, import taxes, insurance, handling, and related fees. If you skip these layers, your pricing and margin
+          decisions are usually too optimistic.
         </p>
       </section>
 
@@ -93,11 +106,41 @@ export default function LandedCostGuidePage() {
         <CardContent className="p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/90">Short direct answer</p>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Use: <span className="font-medium text-foreground">product cost + shipping + duty + tax + insurance + handling fees</span>,
-            then divide by confirmed units received. That output is your real cost floor.
+            Use: <span className="font-medium text-foreground">product cost + shipping + duty + customs tax + insurance + handling fees</span>,
+            then divide by confirmed units received. This gives your real imported cost per unit.
           </p>
         </CardContent>
       </Card>
+
+      <section className="space-y-4">
+        <AnalyticalSectionHeading
+          eyebrow="What is included"
+          title="What costs belong in landed cost"
+          description="Landed cost should capture every cost required to import and release inventory."
+        />
+        <Card className="border-border/85 shadow-none">
+          <CardContent className="grid gap-4 p-5 sm:grid-cols-2 sm:p-6">
+            <div>
+              <p className="text-sm font-semibold">Core cost layers</p>
+              <ul className="mt-2.5 space-y-2.5 pl-5 text-sm leading-6 text-muted-foreground">
+                <li className="list-disc marker:text-primary">Supplier invoice (product cost)</li>
+                <li className="list-disc marker:text-primary">International freight and local delivery</li>
+                <li className="list-disc marker:text-primary">Customs duty and import VAT/tax</li>
+                <li className="list-disc marker:text-primary">Cargo insurance and shipment protection</li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-sm font-semibold">Often missed fees</p>
+              <ul className="mt-2.5 space-y-2.5 pl-5 text-sm leading-6 text-muted-foreground">
+                <li className="list-disc marker:text-primary">Broker, clearance, and documentation fees</li>
+                <li className="list-disc marker:text-primary">Port, inspection, and handling charges</li>
+                <li className="list-disc marker:text-primary">Inbound transfer to warehouse</li>
+                <li className="list-disc marker:text-primary">Any mandatory release-related fees</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
 
       <FormulaBreakdownCard
         title="Landed cost formula in plain language"
@@ -120,8 +163,38 @@ export default function LandedCostGuidePage() {
 
       <section className="space-y-4">
         <AnalyticalSectionHeading
+          eyebrow="Before you calculate"
+          title="Inputs you need before estimating landed cost"
+          description="This checklist prevents most landed-cost errors."
+        />
+        <Card className="border-border/85 shadow-none">
+          <CardContent className="grid gap-4 p-5 sm:grid-cols-2 sm:p-6">
+            <div>
+              <p className="text-sm font-semibold">Shipment fields</p>
+              <ul className="mt-2.5 space-y-2.5 pl-5 text-sm leading-6 text-muted-foreground">
+                <li className="list-disc marker:text-primary">Supplier invoice total and currency</li>
+                <li className="list-disc marker:text-primary">Order quantity and expected received units</li>
+                <li className="list-disc marker:text-primary">Freight mode and quoted shipping cost</li>
+                <li className="list-disc marker:text-primary">Insurance and local delivery charges</li>
+              </ul>
+            </div>
+            <div>
+              <p className="text-sm font-semibold">Import fee fields</p>
+              <ul className="mt-2.5 space-y-2.5 pl-5 text-sm leading-6 text-muted-foreground">
+                <li className="list-disc marker:text-primary">Duty rate or duty amount</li>
+                <li className="list-disc marker:text-primary">Import VAT/tax assumptions</li>
+                <li className="list-disc marker:text-primary">Broker, customs, and handling fees</li>
+                <li className="list-disc marker:text-primary">Any fixed fees allocated per shipment</li>
+              </ul>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="space-y-4">
+        <AnalyticalSectionHeading
           eyebrow="Worked scenario"
-          title="Worked example with realistic overhead"
+          title="Worked landed cost example with realistic import overhead"
           description="Batch: 1,500 units from an overseas supplier."
         />
         <Card className="border-border/85 shadow-none">
@@ -185,9 +258,15 @@ export default function LandedCostGuidePage() {
               expensive shipping options, model the unit-cost lift first.
             </p>
             <p>
-              Next step: validate your final unit cost in
-              <Link href="/tools/cost-per-unit-after-shipping-import-fees" className="text-primary hover:text-primary/80"> cost per unit after shipping and fees</Link>
-              , then test margin safety in <Link href="/how-discounts-affect-profit-margin" className="text-primary hover:text-primary/80">discount scenarios</Link>.
+              Compare this with
+              <Link href="/landed-cost-vs-product-cost" className="text-primary hover:text-primary/80">
+                {" "}landed cost vs product cost
+              </Link>
+              , then move to
+              <Link href="/how-to-calculate-profit-margin-after-shipping-and-fees" className="text-primary hover:text-primary/80">
+                {" "}margin after shipping and fees
+              </Link>
+              {" "}for pricing decisions.
             </p>
           </CardContent>
         </Card>
@@ -197,11 +276,11 @@ export default function LandedCostGuidePage() {
         <Card className="border-border/85 shadow-none">
           <CardContent className="space-y-3.5 p-5 sm:p-6">
             <h2 className="text-xl font-semibold tracking-tight">Common mistakes</h2>
-            <ul className="space-y-2.5 text-sm leading-6 text-muted-foreground">
-              <li className="list-disc pl-1 marker:text-amber-600">Pricing from supplier cost only and treating import fees as overhead later.</li>
-              <li className="list-disc pl-1 marker:text-amber-600">Spreading costs across ordered units instead of received units.</li>
-              <li className="list-disc pl-1 marker:text-amber-600">Ignoring broker, inspection, and local logistics because each looks small.</li>
-              <li className="list-disc pl-1 marker:text-amber-600">Setting promo prices before landed cost is fully loaded.</li>
+            <ul className="space-y-2.5 pl-5 text-sm leading-6 text-muted-foreground">
+              <li className="list-disc marker:text-amber-600">Pricing from supplier cost only and treating import fees as overhead later.</li>
+              <li className="list-disc marker:text-amber-600">Spreading costs across ordered units instead of received units.</li>
+              <li className="list-disc marker:text-amber-600">Ignoring broker, inspection, and local logistics because each looks small.</li>
+              <li className="list-disc marker:text-amber-600">Setting promo prices before landed cost is fully loaded.</li>
             </ul>
           </CardContent>
         </Card>
@@ -219,11 +298,11 @@ export default function LandedCostGuidePage() {
 
       <ContentCtaBlock
         title="Run the exact numbers on your SKU"
-        description="Use your shipment data to calculate total landed cost and per-unit impact in under a minute."
+        description="Use your shipment data to calculate landed cost, then test break-even selling price and margin safety."
         actions={[
           { label: "Landed Cost Calculator", href: "/tools/landed-cost-calculator-importers" },
           { label: "Cost Per Unit After Fees", href: "/tools/cost-per-unit-after-shipping-import-fees" },
-          { label: "Import Cost Hub", href: "/import-cost-tools" }
+          { label: "Break-Even Selling Price", href: "/tools/break-even-selling-price-after-import-costs" }
         ]}
       />
 
@@ -231,17 +310,28 @@ export default function LandedCostGuidePage() {
         <AnalyticalSectionHeading
           eyebrow="FAQ"
           title="Frequently asked questions"
-          description="Clarifications for practical implementation."
+          description="Natural clarifications for landed cost calculation and import fee assumptions."
         />
         <FAQSection items={faqItems} />
       </section>
 
       <Card className="border-border/85 shadow-none">
         <CardContent className="p-5 text-sm text-muted-foreground">
-          Continue analysis: <Link href="/how-discounts-affect-profit-margin" className="text-primary hover:text-primary/80">How discounts affect profit margin</Link>
-          {" "}and{" "}
-          <Link href="/how-to-calculate-reorder-point-with-lead-time" className="text-primary hover:text-primary/80">
-            how to calculate reorder point with lead time
+          Continue analysis:{" "}
+          <Link href="/landed-cost-vs-product-cost" className="text-primary hover:text-primary/80">
+            landed cost vs product cost
+          </Link>
+          {" "},{" "}
+          <Link href="/how-to-calculate-profit-margin-after-shipping-and-fees" className="text-primary hover:text-primary/80">
+            profit margin after shipping and fees
+          </Link>
+          {" "},
+          <Link href="/how-discounts-affect-profit-margin" className="text-primary hover:text-primary/80">
+            how discounts affect profit margin
+          </Link>
+          {" "}, and{" "}
+          <Link href="/guides" className="text-primary hover:text-primary/80">
+            all practical guides
           </Link>
           .
         </CardContent>
@@ -258,7 +348,5 @@ export default function LandedCostGuidePage() {
     </div>
   );
 }
-
-
 
 
