@@ -335,6 +335,10 @@ export default function LandedCostVsProductCostPage() {
       <Card className="border-border/85 shadow-none">
         <CardContent className="p-5 text-sm text-muted-foreground">
           Continue analysis:{" "}
+          <Link href="/landed-cost-formula" className="text-primary hover:text-primary/80">
+            landed cost formula guide
+          </Link>
+          {" "},{" "}
           <Link href="/how-to-calculate-profit-margin-after-shipping-and-fees" className="text-primary hover:text-primary/80">
             margin after shipping and fees
           </Link>
@@ -361,4 +365,5 @@ export default function LandedCostVsProductCostPage() {
     </div>
   );
 }
+
 

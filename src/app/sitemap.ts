@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/how-discounts-affect-profit-margin",
     "/how-to-calculate-reorder-point-with-lead-time",
     "/landed-cost-vs-product-cost",
+    "/landed-cost-formula",
     "/how-to-calculate-profit-margin-after-shipping-and-fees",
     "/safety-stock-formula-for-ecommerce-sellers",
     ...categoryDefinitions.map((category) => `/${category.slug}`)

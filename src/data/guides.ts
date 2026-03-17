@@ -63,6 +63,21 @@ export const guides: GuideDefinition[] = [
     ]
   },
   {
+    id: "landed-cost-formula-guide",
+    href: "/landed-cost-formula",
+    title: "Landed Cost Formula",
+    shortDescription:
+      "Formula-first guide covering total landed cost logic, per-unit allocation, worked numbers, and spreadsheet implementation.",
+    practicalAngle:
+      "Explains how to structure landed cost formulas for imports and connect outputs to price and margin decisions.",
+    helpsWith: "Building reliable landed-cost models in calculators or Excel without missing fee layers.",
+    workflow: "import-cost",
+    relatedTools: [
+      { label: "Landed Cost Calculator", href: "/tools/landed-cost-calculator-importers" },
+      { label: "Break-Even Selling Price", href: "/tools/break-even-selling-price-after-import-costs" }
+    ]
+  },
+  {
     id: "profit-margin-after-fees-guide",
     href: "/how-to-calculate-profit-margin-after-shipping-and-fees",
     title: "How to Calculate Profit Margin After Shipping and Fees",

@@ -322,6 +322,10 @@ export default function LandedCostGuidePage() {
             landed cost vs product cost
           </Link>
           {" "},{" "}
+          <Link href="/landed-cost-formula" className="text-primary hover:text-primary/80">
+            landed cost formula guide
+          </Link>
+          {" "},{" "}
           <Link href="/how-to-calculate-profit-margin-after-shipping-and-fees" className="text-primary hover:text-primary/80">
             profit margin after shipping and fees
           </Link>
@@ -348,5 +352,6 @@ export default function LandedCostGuidePage() {
     </div>
   );
 }
+
 
 
