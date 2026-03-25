@@ -17,7 +17,7 @@ import type { FAQItem } from "@/types/tools";
 export const metadata = buildMetadata({
   title: "Safety Stock Formula for Ecommerce Sellers",
   description:
-    "Risk-threshold guide for ecommerce safety stock: formula logic, volatility scenarios, charted buffer growth, and practical reorder implications.",
+    "Use a practical safety stock formula for ecommerce demand and lead-time variability. Includes worked examples, reorder-point context, and risk guidance.",
   pathname: "/safety-stock-formula-for-ecommerce-sellers"
 });
 
@@ -43,24 +43,24 @@ const comparisonRows = [
 
 const faqItems: FAQItem[] = [
   {
-    question: "Which variable usually changes safety stock the most?",
+    question: "What is safety stock?",
     answer:
-      "Lead-time volatility often has the largest impact because delays compound demand exposure while replacement stock is in transit."
+      "Safety stock is extra inventory kept above expected lead-time demand to reduce stockout risk when demand spikes or supplier lead times slip."
   },
   {
-    question: "Can safety stock be too high?",
+    question: "What is the safety stock formula?",
     answer:
-      "Yes. If stockout risk is low but inventory carrying pressure rises, your buffer may be beyond what service levels require."
+      "A practical formula is: (max daily sales x max lead time) - (average daily sales x average lead time). This estimates the demand buffer for volatility."
   },
   {
-    question: "How often should safety-stock assumptions be reviewed?",
+    question: "What is the difference between safety stock and reorder point?",
     answer:
-      "Review monthly for active SKUs and immediately after demand shocks, supplier changes, or recurring lead-time delays."
+      "Safety stock is the buffer. Reorder point is lead-time demand plus that buffer. Reorder point tells you when to reorder, safety stock defines the protection level."
   },
   {
-    question: "Should every SKU use the same safety-stock rule?",
+    question: "How much safety stock should ecommerce sellers keep?",
     answer:
-      "No. High-velocity or volatile SKUs usually need larger buffers than slow and stable products."
+      "Enough to match your stockout tolerance and lead-time reliability. Fast-moving or volatile SKUs usually need larger buffers than stable long-tail SKUs."
   }
 ];
 
@@ -81,12 +81,8 @@ export default function SafetyStockFormulaGuidePage() {
           Safety stock formula for ecommerce sellers
         </h1>
         <p className="text-sm leading-6 text-muted-foreground sm:text-base">
-          Safety stock protects you from demand spikes and lead-time surprises. This guide shows how to size the buffer with practical
-          volatility scenarios, then translate that buffer into reorder decisions. Use it with the
-          <Link href="/tools/safety-stock-calculator-ecommerce" className="text-primary hover:text-primary/80">
-            {" "}safety stock calculator
-          </Link>
-          {" "}and your SKU-level lead-time data.
+          Safety stock is a decision tool, not just a formula. Set your buffer too low and you miss sales during lead-time delays. Set
+          it too high and cash gets trapped in inventory. This guide helps you size the buffer based on demand and supply volatility.
         </p>
       </section>
 
@@ -94,32 +90,32 @@ export default function SafetyStockFormulaGuidePage() {
         <CardContent className="p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/90">Short direct answer</p>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            A practical safety stock formula is: (max daily sales x max lead time) - (average daily sales x average lead time).
-            Higher demand and lead-time volatility require a larger buffer.
+            Safety stock formula: (max daily sales x max lead time) - (average daily sales x average lead time). Then calculate reorder
+            point as lead-time demand plus safety stock.
           </p>
         </CardContent>
       </Card>
 
       <section className="space-y-4">
         <AnalyticalSectionHeading
-          eyebrow="Risk tradeoff"
-          title="Buffer policy in one view"
-          description="The right safety stock balances service reliability against cash and carrying pressure."
+          eyebrow="Core distinction"
+          title="Safety stock vs reorder point"
+          description="These two metrics work together but solve different planning questions."
         />
         <ComparisonFrame
-          leftTitle="Safety stock too low"
+          leftTitle="Safety stock"
           leftPoints={[
-            "Frequent stockout risk during demand spikes",
-            "Late reorder windows when lead time stretches",
-            "Lost sales and unstable ad efficiency",
-            "Reactive emergency replenishment costs"
+            "Inventory buffer for uncertainty",
+            "Absorbs demand spikes and delay risk",
+            "Calculated from volatility assumptions",
+            "Defines service-level protection"
           ]}
-          rightTitle="Safety stock too high"
+          rightTitle="Reorder point"
           rightPoints={[
-            "Lower stockout probability at same service target",
-            "More stable reorder cadence under volatility",
-            "Higher capital tied in slow-moving inventory",
-            "Potential markdown risk if demand cools"
+            "Trigger level for placing a purchase order",
+            "Equals lead-time demand plus safety stock",
+            "Operational threshold used by planners",
+            "Keeps replenishment timing consistent"
           ]}
         />
       </section>
@@ -129,44 +125,44 @@ export default function SafetyStockFormulaGuidePage() {
         formula="Safety stock = (Max daily sales x Max lead time) - (Average daily sales x Average lead time)"
         items={[
           {
-            label: "Worst-case demand during replenishment",
+            label: "Worst-case lead-time demand",
             detail: "Max daily sales multiplied by max observed lead time."
           },
           {
-            label: "Expected demand during replenishment",
+            label: "Expected lead-time demand",
             detail: "Average daily sales multiplied by average lead time."
           },
           {
             label: "Decision use",
-            detail: "Add safety stock to lead-time demand to set reorder thresholds."
+            detail: "Use safety stock as your volatility buffer, then add it to lead-time demand for reorder point."
           }
         ]}
       />
 
       <section className="space-y-4">
         <AnalyticalSectionHeading
-          eyebrow="Worked scenario"
-          title="Worked example with real volatility"
-          description="Single ecommerce SKU with mixed demand and supplier delay risk."
+          eyebrow="Worked example"
+          title="Worked ecommerce scenario"
+          description="SKU with seasonal demand swings and import lead-time variability."
         />
         <Card className="border-border/85 shadow-none">
           <CardContent className="grid gap-4 p-5 sm:grid-cols-2">
             <div>
               <p className="text-sm font-semibold">Inputs</p>
               <ul className="mt-2 space-y-2.5 text-sm leading-6 text-muted-foreground">
-                <li>Average daily sales: 42 units</li>
-                <li>Max daily sales: 65 units</li>
-                <li>Average lead time: 14 days</li>
-                <li>Max lead time: 20 days</li>
+                <li>Average daily sales: 40 units</li>
+                <li>Max daily sales: 62 units</li>
+                <li>Average lead time: 16 days</li>
+                <li>Max lead time: 24 days</li>
               </ul>
             </div>
             <div>
               <p className="text-sm font-semibold">Outputs</p>
               <ul className="mt-2 space-y-2.5 text-sm leading-6 text-muted-foreground">
-                <li>Expected lead-time demand: 588 units</li>
-                <li>Worst-case lead-time demand: 1,300 units</li>
-                <li>Safety stock: 712 units</li>
-                <li>Reorder point baseline: 1,300 units</li>
+                <li>Expected lead-time demand: 640 units</li>
+                <li>Worst-case lead-time demand: 1,488 units</li>
+                <li>Safety stock: 848 units</li>
+                <li>Reorder point: 1,488 units</li>
               </ul>
             </div>
           </CardContent>
@@ -177,7 +173,7 @@ export default function SafetyStockFormulaGuidePage() {
         <AnalyticalSectionHeading
           eyebrow="Primary table"
           title="Stable vs volatile conditions"
-          description="Same average demand, different volatility assumptions and resulting safety-stock needs."
+          description="Same average demand, different volatility assumptions and resulting safety-stock policy."
         />
         <ScenarioComparisonTable
           headers={[
@@ -215,41 +211,37 @@ export default function SafetyStockFormulaGuidePage() {
           xAxisLabel="Volatility profile"
           yTickFormatter={(value) => `${Math.round(value)}`}
         />
-        <Card className="border-border/85 shadow-none">
-          <CardContent className="space-y-2.5 p-5 text-sm leading-6 text-muted-foreground">
-            <p>
-              The slope between moderate and high volatility is the real risk signal. If your lead time or demand profile starts drifting,
-              delayed adjustments can push reorder thresholds out of date very quickly.
-            </p>
-          </CardContent>
-        </Card>
       </section>
 
       <section className="grid gap-5 lg:grid-cols-2">
         <ThresholdNote
-          title="What changes the answer most?"
-          description="These drivers usually move safety stock faster than teams expect:"
+          title="Which inputs matter most?"
+          description="These three drivers usually move safety stock the fastest:"
           bullets={[
-            "Lead-time variance after customs or carrier disruptions",
-            "Promotional demand spikes that invalidate old averages",
-            "Low update cadence on max-demand and max-lead-time assumptions",
-            "Shared safety-stock rules across SKUs with different volatility"
+            "Lead time reliability: longer and less predictable lead times require larger buffers.",
+            "Demand variability: wider daily sales swings increase stockout exposure.",
+            "Service level target: lower stockout tolerance means higher safety stock.",
+            "Review cadence: stale max-demand or max-lead assumptions create false confidence."
           ]}
         />
 
         <Card className="border-border/85 shadow-none">
           <CardContent className="space-y-3.5 p-5 sm:p-6">
-            <h2 className="text-xl font-semibold tracking-tight">When safety stock becomes too aggressive</h2>
+            <h2 className="text-xl font-semibold tracking-tight">When the buffer policy should change</h2>
             <p className="text-sm leading-6 text-muted-foreground">
-              Oversized buffers can protect service levels but consume capital and increase aged inventory risk. If stockouts are rare
-              and days-on-hand keeps expanding, your buffer may be above what current volatility requires.
+              Increase safety stock when lead-time delays become frequent, campaigns drive demand volatility, or stockouts carry higher
+              revenue risk. Reduce gradually when demand normalizes and supplier performance stabilizes.
             </p>
             <p className="text-sm leading-6 text-muted-foreground">
-              Recalibrate with
+              Keep action thresholds aligned with
               <Link href="/tools/reorder-point-calculator-lead-time" className="text-primary hover:text-primary/80">
-                {" "}reorder point modeling
+                {" "}reorder point calculations
               </Link>
-              {" "}and align thresholds by SKU risk tier.
+              {" "}and review workflow from the
+              <Link href="/inventory-planning-tools" className="text-primary hover:text-primary/80">
+                {" "}inventory planning hub
+              </Link>
+              .
             </p>
           </CardContent>
         </Card>
@@ -260,10 +252,10 @@ export default function SafetyStockFormulaGuidePage() {
           <CardContent className="space-y-3.5 p-5 sm:p-6">
             <h2 className="text-xl font-semibold tracking-tight">Common mistakes</h2>
             <ul className="space-y-2.5 pl-5 text-sm leading-6 text-muted-foreground">
-              <li className="list-disc marker:text-amber-600">Treating average demand as if demand volatility does not exist.</li>
-              <li className="list-disc marker:text-amber-600">Using fixed lead time while supplier performance is drifting.</li>
-              <li className="list-disc marker:text-amber-600">Applying one buffer rule to every SKU regardless of risk profile.</li>
-              <li className="list-disc marker:text-amber-600">Updating reorder alerts without revisiting safety-stock assumptions.</li>
+              <li className="list-disc marker:text-amber-600">Using average demand only and ignoring peak-day demand risk.</li>
+              <li className="list-disc marker:text-amber-600">Keeping fixed lead-time assumptions while suppliers drift.</li>
+              <li className="list-disc marker:text-amber-600">Applying one safety-stock rule to all SKUs regardless of volatility.</li>
+              <li className="list-disc marker:text-amber-600">Updating reorder alerts without refreshing safety-stock inputs.</li>
             </ul>
           </CardContent>
         </Card>
@@ -271,22 +263,22 @@ export default function SafetyStockFormulaGuidePage() {
         <OperatorTakeawayCard
           title="Operator takeaway and risk balancing"
           bullets={[
-            "Set safety stock from volatility evidence, not static habit.",
-            "Increase buffers when lead-time reliability weakens or promotions intensify.",
-            "Reduce buffers gradually when volatility normalizes to avoid overstock lockup.",
-            "Review SKU thresholds monthly and after each major supply event."
+            "Treat safety stock as a risk policy linked to service level.",
+            "Recalculate after major lead-time or demand changes.",
+            "Set SKU-tier buffers instead of one blanket rule.",
+            "Use CSV reorder alerts to monitor urgency at scale."
           ]}
         />
       </section>
 
       <ContentCtaBlock
         title="Turn buffer policy into live reorder actions"
-        description="Calculate safety stock, map reorder points, and monitor status across your CSV inventory in one workflow."
+        description="Calculate safety stock, map reorder points, and monitor status across your SKU list."
         actions={[
           { label: "Safety Stock Calculator", href: "/tools/safety-stock-calculator-ecommerce" },
           { label: "Reorder Point Calculator", href: "/tools/reorder-point-calculator-lead-time" },
           { label: "Upload Inventory CSV", href: "/tools/upload-inventory-csv-reorder-alerts" },
-          { label: "Reorder Point Guide", href: "/how-to-calculate-reorder-point-with-lead-time" }
+          { label: "Inventory Planning Tools", href: "/inventory-planning-tools" }
         ]}
       />
 
@@ -306,8 +298,8 @@ export default function SafetyStockFormulaGuidePage() {
             reorder point with lead time
           </Link>
           {" "}and{" "}
-          <Link href="/inventory-planning-tools" className="text-primary hover:text-primary/80">
-            inventory planning tool workflows
+          <Link href="/tools/days-of-inventory-left-calculator" className="text-primary hover:text-primary/80">
+            days of inventory left
           </Link>
           .
         </CardContent>
@@ -324,5 +316,3 @@ export default function SafetyStockFormulaGuidePage() {
     </div>
   );
 }
-
-

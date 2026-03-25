@@ -17,77 +17,77 @@ import type { FAQItem } from "@/types/tools";
 export const metadata = buildMetadata({
   title: "How to Calculate Profit Margin After Shipping and Fees",
   description:
-    "Stage-by-stage margin compression guide that shows how shipping, payment, and variable selling costs erode paper margin in real operations.",
+    "Clear formula and worked example for shipping and fee-adjusted margin. Compare gross margin vs real margin before discounts and scaling.",
   pathname: "/how-to-calculate-profit-margin-after-shipping-and-fees"
 });
 
-const stageLabels = ["Paper margin", "+ Shipping", "+ Payment fees", "+ All variable costs"];
+const stageLabels = ["Gross margin", "+ Shipping", "+ Payment fees", "+ Shipping + import + variable fees"];
 
 const progressionStages = [
   {
-    label: "Before fees",
+    label: "Gross margin",
     metric: "50.0% margin",
-    detail: "Price $48, product cost $24. Looks strong before operational fees are loaded."
+    detail: "Price $52, product cost $26.00. This is gross margin before operational drag."
   },
   {
     label: "After shipping",
-    metric: "40.0% margin",
-    detail: "Add $4.80 fulfillment and delivery. Profit per unit drops from $24.00 to $19.20."
+    metric: "40.4% margin",
+    detail: "Add $5.00 shipping and fulfillment. Profit per unit drops from $26.00 to $21.00."
   },
   {
     label: "After payment fees",
-    metric: "36.5% margin",
-    detail: "Add $1.70 processing. Fee drag starts to compress contribution faster."
+    metric: "36.9% margin",
+    detail: "Add $1.80 payment processing. Contribution shrinks again."
   },
   {
-    label: "After full variable load",
-    metric: "27.1% margin",
-    detail: "Add channel and returns reserve. Real margin is almost half of paper margin."
+    label: "After shipping + import + variable fees",
+    metric: "27.9% margin",
+    detail: "Add $3.20 import allocation and $1.50 other variable fees for a decision-grade margin."
   }
 ];
 
 const comparisonRows = [
   {
-    scenario: "Margin before fees",
-    cells: ["Product only", "$24.00", "$24.00", "50.0%"]
+    scenario: "Gross margin",
+    cells: ["Product cost only", "$26.00", "$26.00", "50.0%"]
   },
   {
-    scenario: "After shipping",
-    cells: ["Product + shipping/fulfillment", "$28.80", "$19.20", "40.0%"]
+    scenario: "Margin after shipping",
+    cells: ["+ shipping and fulfillment", "$31.00", "$21.00", "40.4%"]
   },
   {
-    scenario: "After shipping + payment",
-    cells: ["+ processing fees", "$30.50", "$17.50", "36.5%"]
+    scenario: "Margin after payment fees",
+    cells: ["+ payment processing", "$32.80", "$19.20", "36.9%"]
   },
   {
-    scenario: "After all variable costs",
-    cells: ["+ channel + returns reserve", "$35.00", "$13.00", "27.1%"]
+    scenario: "Margin after shipping + import costs",
+    cells: ["+ import allocation + other variable fees", "$37.50", "$14.50", "27.9%"]
   }
 ];
 
-const marginSeries = [50, 40, 36.5, 27.1];
-const costLoadSeries = [50, 60, 63.5, 72.9];
+const marginSeries = [50, 40.4, 36.9, 27.9];
+const costLoadSeries = [50, 59.6, 63.1, 72.1];
 
 const faqItems: FAQItem[] = [
   {
-    question: "Which costs should always be included in margin after fees?",
+    question: "How do I calculate profit margin after shipping?",
     answer:
-      "At minimum: product cost, shipping or fulfillment, payment processing, and recurring channel-related variable costs such as returns allowance or marketplace charges."
+      "Subtract product cost and shipping from selling price, then divide by selling price. Margin after shipping = (price - product cost - shipping) / price."
   },
   {
-    question: "Why do operators overestimate margin so often?",
+    question: "Do shipping costs reduce margin?",
     answer:
-      "Many teams track product cost precisely but leave variable selling costs in separate reports, so pricing decisions are made from incomplete unit economics."
+      "Yes. Shipping is a per-order cost that directly reduces profit per unit unless it is fully recovered in the selling price."
   },
   {
-    question: "What is a practical warning threshold?",
+    question: "Should payment and marketplace fees be included in margin?",
     answer:
-      "If real margin after full variable costs is more than 8 to 10 points below paper margin, repricing and fee controls usually become urgent."
+      "Yes for decision-making. Excluding payment and channel fees overstates margin and can lead to unsafe discount or ad spend decisions."
   },
   {
-    question: "Should discounts be evaluated before or after fee loading?",
+    question: "What is the difference between gross margin and real margin?",
     answer:
-      "After fee loading. Discount decisions based on paper margin can look safe while total contribution actually degrades."
+      "Gross margin usually uses product cost only. Real margin includes shipping, payment, import allocations, and other variable selling costs."
   }
 ];
 
@@ -108,45 +108,45 @@ export default function ProfitMarginAfterFeesGuidePage() {
           How to calculate profit margin after shipping and fees
         </h1>
         <p className="text-sm leading-6 text-muted-foreground sm:text-base">
-          Paper margin can look healthy while real margin is weak. Use this guide to load shipping, payment, and recurring variable costs
-          in sequence, then compare the real outcome before pricing or promotions. For quick modeling, pair this with the
-          <Link href="/tools/margin-calculator-after-shipping-fees" className="text-primary hover:text-primary/80">
-            {" "}margin calculator after shipping fees
-          </Link>
-          .
+          Real margin is what remains after product cost, shipping, payment fees, and recurring variable costs. Use this method to avoid
+          overestimating contribution and to set safer pricing and promo thresholds.
         </p>
       </section>
 
       <Card className="border-primary/20 bg-gradient-to-r from-sky-50/80 to-white shadow-none">
-        <CardContent className="p-5">
+        <CardContent className="space-y-2 p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/90">Short direct answer</p>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Profit margin after fees = (selling price - all variable costs) / selling price. If you stop at product cost,
-            margin is usually overstated and pricing decisions drift out of sync with reality.
+          <p className="text-sm font-medium leading-6 text-foreground">
+            Margin after shipping and fees = (Selling price - Product cost - Shipping - Payment fees - Other variable costs) / Selling
+            price.
+          </p>
+          <p className="text-sm leading-6 text-muted-foreground">
+            Gross margin is a screening metric. Fee-adjusted margin is the operating metric you should use for discount, reorder, and
+            paid traffic decisions.
           </p>
         </CardContent>
       </Card>
 
       <section className="space-y-4">
         <AnalyticalSectionHeading
-          eyebrow="Paper vs real result"
-          title="The key difference"
-          description="Margin before fees is a screening metric. Margin after full variable cost loading is the decision metric."
+          eyebrow="Core difference"
+          title="Why gross margin differs from real margin"
+          description="Gross margin often looks healthy because fee layers are not loaded yet."
         />
         <ComparisonFrame
-          leftTitle="Paper margin (incomplete)"
+          leftTitle="Gross margin view"
           leftPoints={[
             "Uses selling price minus product cost only",
-            "Looks strong during planning decks",
-            "Hides logistics and payment drag",
-            "Can approve discounts that destroy contribution"
+            "Fast for rough SKU screening",
+            "Can hide shipping and fee drag",
+            "Often overstates pricing flexibility"
           ]}
-          rightTitle="Real margin (decision-grade)"
+          rightTitle="Real margin view"
           rightPoints={[
-            "Includes shipping, payment, and channel-variable costs",
-            "Shows true profit retained per unit sold",
-            "Creates safer price floors and promo rules",
-            "Supports realistic growth and spend decisions"
+            "Loads shipping, payment, and channel-variable costs",
+            "Reflects true per-unit contribution",
+            "Improves discount and ad spend decisions",
+            "Supports safer break-even thresholds"
           ]}
         />
       </section>
@@ -156,16 +156,16 @@ export default function ProfitMarginAfterFeesGuidePage() {
         formula="Real margin (%) = ((Selling price - Product cost - Shipping - Payment fees - Other variable costs) / Selling price) x 100"
         items={[
           {
-            label: "Product cost",
-            detail: "Unit purchase or production cost before selling operations."
+            label: "Shipping and fulfillment",
+            detail: "Treat as per-unit variable costs if they scale with each order."
           },
           {
-            label: "Variable cost stack",
-            detail: "Shipping, fulfillment, payment processing, channel fees, returns allowance."
+            label: "Payment and channel fees",
+            detail: "Include recurring transaction fees and marketplace charges."
           },
           {
-            label: "Decision use",
-            detail: "Use real margin to set discounts, ad targets, and repricing thresholds."
+            label: "Import allocations",
+            detail: "If you import inventory, add landed-cost components to avoid underpricing."
           }
         ]}
       />
@@ -173,28 +173,28 @@ export default function ProfitMarginAfterFeesGuidePage() {
       <section className="space-y-4">
         <AnalyticalSectionHeading
           eyebrow="Worked scenario"
-          title="Worked example: same SKU, four margin states"
-          description="SKU sells at $48 with monthly volume baseline of 1,200 units."
+          title="Worked example with full cost loading"
+          description="One SKU sold at $52 with realistic fee layers."
         />
         <Card className="border-border/85 shadow-none">
           <CardContent className="grid gap-4 p-5 sm:grid-cols-2">
             <div>
               <p className="text-sm font-semibold">Inputs</p>
               <ul className="mt-2 space-y-2.5 text-sm leading-6 text-muted-foreground">
-                <li>Price: $48.00</li>
-                <li>Product cost: $24.00</li>
-                <li>Shipping and fulfillment: $4.80</li>
-                <li>Payment processing: $1.70</li>
-                <li>Channel and returns reserve: $4.50</li>
+                <li>Selling price: $52.00</li>
+                <li>Product cost: $26.00</li>
+                <li>Shipping and fulfillment: $5.00</li>
+                <li>Payment processing: $1.80</li>
+                <li>Import allocation + other variable fees: $4.70</li>
               </ul>
             </div>
             <div>
               <p className="text-sm font-semibold">Outputs</p>
               <ul className="mt-2 space-y-2.5 text-sm leading-6 text-muted-foreground">
-                <li>Paper margin: 50.0%</li>
-                <li>Real margin after full fee load: 27.1%</li>
-                <li>Profit per unit drops from $24.00 to $13.00</li>
-                <li>At 1,200 units/month, contribution drops by $13,200 vs paper expectation</li>
+                <li>Gross margin: 50.0%</li>
+                <li>Fee-adjusted margin: 27.9%</li>
+                <li>Profit per unit drops from $26.00 to $14.50</li>
+                <li>Margin compression: -22.1 percentage points</li>
               </ul>
             </div>
           </CardContent>
@@ -205,19 +205,24 @@ export default function ProfitMarginAfterFeesGuidePage() {
         <AnalyticalSectionHeading
           eyebrow="Progression view"
           title="Stage-by-stage margin erosion"
-          description="This sequence is the fastest way to expose where margin compression starts."
+          description="Load costs in sequence to isolate where margin compression starts."
         />
         <ProgressionStages title="Margin states" stages={progressionStages} />
       </section>
 
       <section className="space-y-4">
         <AnalyticalSectionHeading
-          eyebrow="Primary table"
-          title="Margin compression by cost layer"
-          description="Use this pattern to audit any SKU before scaling spend or discount depth."
+          eyebrow="Comparison table"
+          title="Gross margin vs shipping and fee-adjusted margin"
+          description="Use this structure for SKU-level pricing reviews."
         />
         <ScenarioComparisonTable
-          headers={["Included variable costs", "Total variable cost / unit", "Profit per unit", "Margin"]}
+          headers={[
+            "Included costs",
+            "Total variable cost / unit",
+            "Profit per unit",
+            "Margin"
+          ]}
           rows={comparisonRows}
         />
       </section>
@@ -226,7 +231,7 @@ export default function ProfitMarginAfterFeesGuidePage() {
         <AnalyticalSectionHeading
           eyebrow="Primary visual"
           title="How quickly fee loading compresses margin"
-          description="Margin falls while cumulative cost load climbs toward the selling price ceiling."
+          description="Margin falls while cumulative cost load approaches the selling-price ceiling."
         />
         <AnalysisLineChart
           xLabels={stageLabels}
@@ -249,8 +254,16 @@ export default function ProfitMarginAfterFeesGuidePage() {
         <Card className="border-border/85 shadow-none">
           <CardContent className="space-y-2.5 p-5 text-sm leading-6 text-muted-foreground">
             <p>
-              Compression is nonlinear in practice because operators usually apply discounts and ad spend on top of this baseline.
-              A 27% real margin can turn fragile quickly once promotional pressure starts.
+              Fee-adjusted margin is the baseline you should test before running promotions. To capture import overhead correctly, pair
+              this page with
+              <Link href="/how-to-calculate-landed-cost-for-imported-products" className="text-primary hover:text-primary/80">
+                {" "}how to calculate landed cost
+              </Link>
+              {" "}and
+              <Link href="/landed-cost-formula" className="text-primary hover:text-primary/80">
+                {" "}the landed cost formula
+              </Link>
+              .
             </p>
           </CardContent>
         </Card>
@@ -259,28 +272,32 @@ export default function ProfitMarginAfterFeesGuidePage() {
       <section className="grid gap-5 lg:grid-cols-2">
         <ThresholdNote
           title="What compresses margin the fastest?"
-          description="These factors usually produce the largest gap between paper and real margin:"
+          description="These factors usually create the largest gross-vs-real gap:"
           bullets={[
-            "Fulfillment and shipping costs on low-AOV SKUs",
-            "Payment processing drag during discount periods",
-            "Channel and returns allowances that are not loaded at SKU level",
-            "Price cuts approved before full cost restatement"
+            "Fulfillment and shipping on low-AOV SKUs",
+            "Payment processing drag during discounts",
+            "Import charges not allocated at unit level",
+            "Channel fees loaded too late in pricing workflow"
           ]}
         />
 
         <Card className="border-border/85 shadow-none">
           <CardContent className="space-y-3.5 p-5 sm:p-6">
-            <h2 className="text-xl font-semibold tracking-tight">Why healthy margin on paper collapses in real selling</h2>
+            <h2 className="text-xl font-semibold tracking-tight">From margin estimate to decision-ready margin</h2>
             <p className="text-sm leading-6 text-muted-foreground">
-              Paper margin treats operational fees as background noise. Real selling turns those fees into hard per-unit deductions.
-              When each deduction is stacked, price flexibility shrinks and break-even thresholds move closer than expected.
+              Teams often start with gross margin and then approve campaigns before full fee loading. This is where avoidable erosion
+              happens. Move from estimate to decision-grade margin before discounting or scaling spend.
             </p>
             <p className="text-sm leading-6 text-muted-foreground">
-              Next step: model discount sensitivity with
+              Next step: stress-test promo economics with
               <Link href="/how-discounts-affect-profit-margin" className="text-primary hover:text-primary/80">
-                {" "}discount impact analysis
+                {" "}discount margin analysis
               </Link>
-              {" "}before launch.
+              {" "}and validate price floors with the
+              <Link href="/tools/break-even-selling-price-after-import-costs" className="text-primary hover:text-primary/80">
+                {" "}break-even selling price tool
+              </Link>
+              .
             </p>
           </CardContent>
         </Card>
@@ -291,10 +308,10 @@ export default function ProfitMarginAfterFeesGuidePage() {
           <CardContent className="space-y-3.5 p-5 sm:p-6">
             <h2 className="text-xl font-semibold tracking-tight">Common mistakes</h2>
             <ul className="space-y-2.5 pl-5 text-sm leading-6 text-muted-foreground">
-              <li className="list-disc marker:text-amber-600">Treating shipping as fixed overhead instead of unit economics input.</li>
-              <li className="list-disc marker:text-amber-600">Ignoring payment and channel fees when setting promo depth.</li>
-              <li className="list-disc marker:text-amber-600">Using one margin target across SKUs with different fee profiles.</li>
-              <li className="list-disc marker:text-amber-600">Reviewing revenue trends without contribution trend by SKU tier.</li>
+              <li className="list-disc marker:text-amber-600">Treating shipping as overhead instead of a per-order margin input.</li>
+              <li className="list-disc marker:text-amber-600">Excluding payment and channel fees from pricing decisions.</li>
+              <li className="list-disc marker:text-amber-600">Ignoring import charges when calculating real product economics.</li>
+              <li className="list-disc marker:text-amber-600">Comparing revenue growth without contribution margin trend by SKU.</li>
             </ul>
           </CardContent>
         </Card>
@@ -302,21 +319,21 @@ export default function ProfitMarginAfterFeesGuidePage() {
         <OperatorTakeawayCard
           title="Practical operator recommendations"
           bullets={[
-            "Audit margin in stages before changing price or ad budgets.",
-            "Set minimum acceptable real margin after full fee loading, not before.",
-            "Flag SKUs where real margin drops below threshold after shipping and payment fees.",
-            "Pair fee-aware margin checks with discount scenario testing before campaigns."
+            "Track gross and real margin separately so tradeoffs are visible.",
+            "Use fee-adjusted margin thresholds for pricing and promotions.",
+            "Recalculate margins when shipping, payment, or import costs change.",
+            "Pair real margin checks with break-even floor modeling before launch."
           ]}
         />
       </section>
 
       <ContentCtaBlock
         title="Calculate real margin before you commit pricing"
-        description="Run your actual fee stack to see contribution margin after shipping and payment drag, then validate promo safety."
+        description="Run full fee-stack checks, then set safer floor prices and discount depth limits."
         actions={[
           { label: "Margin Calculator After Shipping Fees", href: "/tools/margin-calculator-after-shipping-fees" },
-          { label: "Import Profit Margin Calculator", href: "/tools/import-profit-margin-calculator" },
-          { label: "Discount Impact Guide", href: "/how-discounts-affect-profit-margin" }
+          { label: "Break-even Selling Price Tool", href: "/tools/break-even-selling-price-after-import-costs" },
+          { label: "How Discounts Affect Profit Margin", href: "/how-discounts-affect-profit-margin" }
         ]}
       />
 
@@ -332,12 +349,16 @@ export default function ProfitMarginAfterFeesGuidePage() {
       <Card className="border-border/85 shadow-none">
         <CardContent className="p-5 text-sm text-muted-foreground">
           Continue analysis:{" "}
-          <Link href="/landed-cost-vs-product-cost" className="text-primary hover:text-primary/80">
-            landed cost vs product cost
+          <Link href="/how-to-calculate-landed-cost-for-imported-products" className="text-primary hover:text-primary/80">
+            how to calculate landed cost
           </Link>
           {" "}and{" "}
-          <Link href="/profit-margin-tools" className="text-primary hover:text-primary/80">
-            profit margin tool workflows
+          <Link href="/landed-cost-formula" className="text-primary hover:text-primary/80">
+            landed cost formula
+          </Link>
+          {" "}and{" "}
+          <Link href="/landed-cost-vs-product-cost" className="text-primary hover:text-primary/80">
+            landed cost vs product cost
           </Link>
           .
         </CardContent>
@@ -354,5 +375,3 @@ export default function ProfitMarginAfterFeesGuidePage() {
     </div>
   );
 }
-
-

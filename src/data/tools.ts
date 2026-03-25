@@ -475,7 +475,7 @@ export const tools: ToolDefinition[] = [
     id: "break-even-selling-price-after-import-costs",
     slug: "break-even-selling-price-after-import-costs",
     title: "Break-even Selling Price After Import Costs",
-    shortDescription: "Set minimum selling price to cover cost, fees, and your target profit per unit.",
+    shortDescription: "Calculate your price floor after landed costs, shipping, and import fees so you do not underprice SKUs.",
     category: "marketplace-seller",
     featured: false,
     relatedTools: [
@@ -484,42 +484,48 @@ export const tools: ToolDefinition[] = [
       "break-even-roas-calculator-ecommerce"
     ],
     seoTitle: "Break-even Selling Price After Import Costs | MarginKit",
-    seoDescription: "Calculate the selling price needed to cover unit cost, fees, and target profit.",
+    seoDescription:
+      "Find your minimum selling price after landed cost, shipping, import fees, and target profit assumptions.",
     h1: "Break-even Selling Price After Import Costs",
     heroDescription:
-      "Avoid underpricing imported goods. Define your target profit and see the minimum viable selling price instantly.",
+      "Know your pricing floor before listing or discounting imported SKUs. This tool combines landed cost, shipping and fees, plus target profit into one minimum viable selling price.",
     workedExample: {
       title: "Worked example",
-      description: "Price floor setup for a new SKU:",
+      description: "Imported SKU pricing floor:",
       values: [
-        "Cost per unit: $11",
-        "Shipping and fees per unit: $4",
-        "Target profit per unit: $6",
-        "Break-even selling price: $21"
+        "Cost per unit (landed): $13.40",
+        "Shipping and fees per unit: $5.60",
+        "Target profit per unit: $4.00",
+        "Break-even selling price: $23.00"
       ]
     },
     howToUse: [
-      "Enter total per-unit product cost.",
-      "Add shipping and fee burden per unit.",
-      "Set target profit to generate a pricing floor."
+      "Start with landed cost per unit, not supplier product price only.",
+      "Add shipping, import duty, and variable channel fees per unit.",
+      "Set target profit, then compare output against market price and promo plans."
     ],
     commonMistakes: [
-      "Using desired margin % but not converting to target profit.",
-      "Leaving marketplace fees out of shipping/fees field.",
-      "Ignoring future promo discount plans in floor pricing."
+      "Using factory cost instead of landed cost.",
+      "Leaving shipping, duty, or marketplace fees outside the model.",
+      "Treating break-even as final retail price instead of price floor.",
+      "Choosing target profit too low for discount or ad pressure."
     ],
     faq: [
       {
-        question: "Is this the final retail price?",
-        answer: "It is the minimum price for your current cost and target profit assumptions."
+        question: "What is break-even selling price?",
+        answer: "It is the minimum unit price needed to cover full per-unit costs and your target profit assumption."
       },
       {
-        question: "Can I use zero target profit?",
-        answer: "Yes, then the output becomes true break-even price before profit."
+        question: "How do import costs affect break-even price?",
+        answer: "Higher duty, shipping, customs, and handling increase per-unit cost and push your break-even price higher."
       },
       {
-        question: "Should ad spend be included?",
-        answer: "Usually ad spend is handled separately with ROAS and CAC analysis."
+        question: "Should shipping and fees be included?",
+        answer: "Yes. Excluding variable shipping and channel fees underestimates the true price floor and increases margin risk."
+      },
+      {
+        question: "What is the difference between break-even and target-margin pricing?",
+        answer: "Break-even sets the floor. Target-margin pricing adds additional buffer above that floor to absorb promotions, ads, and cost drift."
       }
     ]
   },

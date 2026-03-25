@@ -17,14 +17,14 @@ import type { FAQItem } from "@/types/tools";
 export const metadata = buildMetadata({
   title: "How Discounts Affect Profit Margin",
   description:
-    "Practical discount economics for operators: margin compression, extra units required, worked scenarios, and decision thresholds before running promos.",
+    "Learn exactly how discount depth compresses profit margin, when discount campaigns become risky, and how many extra units you need to protect profit.",
   pathname: "/how-discounts-affect-profit-margin"
 });
 
 const basePrice = 40;
 const unitCost = 26;
 const baseUnits = 800;
-const discountLevels = [0, 5, 10, 15, 20];
+const discountLevels = [0, 5, 10, 15, 20, 30];
 
 const scenarioRows = [
   {
@@ -42,6 +42,10 @@ const scenarioRows = [
   {
     scenario: "20% discount",
     cells: ["$32.00", "18.8%", "+1,067 units", "Critical"]
+  },
+  {
+    scenario: "30% discount",
+    cells: ["$28.00", "7.1%", "+4,800 units", "Unsustainable for most SKUs"]
   }
 ];
 
@@ -64,24 +68,24 @@ const requiredVolumeLiftSeries = discountLevels.map((discount) => {
 
 const faqItems: FAQItem[] = [
   {
-    question: "Why can revenue rise while profit gets worse?",
+    question: "How do discounts affect profit margin in practice?",
     answer:
-      "Discounts can increase order count, but if profit per unit drops too much, total profit still declines even with higher revenue."
+      "Discounts reduce selling price while many costs stay unchanged. Profit per unit shrinks first, so margin drops even when unit sales increase."
   },
   {
-    question: "What is a practical warning threshold before launching a discount?",
+    question: "How do I calculate margin after discount?",
     answer:
-      "If required volume lift exceeds 40-50%, most teams should pressure-test conversion assumptions before launch."
+      "Use margin after discount = (discounted price - full unit cost) / discounted price. Full unit cost should include product, shipping, payment, and other variable fees."
   },
   {
-    question: "Are discounts always bad for low-margin products?",
+    question: "When does discounting become dangerous?",
     answer:
-      "Not always, but low-margin SKUs are less forgiving. Small discount depth can create large volume requirements."
+      "Discounting becomes dangerous when required volume lift is unrealistic for your channel. If you need 40-60% more units just to hold profit flat, risk is already high."
   },
   {
-    question: "When is bundling better than direct discounting?",
+    question: "Can discount campaigns increase revenue but reduce contribution margin?",
     answer:
-      "Bundling can protect perceived price and improve average order value while reducing direct margin compression on core SKUs."
+      "Yes. Revenue can grow from higher order count while contribution margin falls because profit per order is lower. Always compare both revenue and profit contribution."
   }
 ];
 
@@ -100,8 +104,8 @@ export default function DiscountImpactGuidePage() {
         <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary/90">Pricing Decision Guide</p>
         <h1 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">How discounts affect profit margin</h1>
         <p className="text-sm leading-6 text-muted-foreground sm:text-base">
-          Discounts do not hurt every product equally. The same 10% promotion can be manageable on a high-margin SKU and destructive on a
-          low-margin SKU. This guide helps you check margin compression and required volume lift before launch.
+          A discount percent is not equal to a margin drop. A 10% price cut can compress margin much more than 10% once full costs are
+          loaded. This guide helps you model margin compression, contribution impact, and required volume lift before launching campaigns.
         </p>
       </section>
 
@@ -109,8 +113,8 @@ export default function DiscountImpactGuidePage() {
         <CardContent className="p-5">
           <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/90">Short direct answer</p>
           <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            Discounts reduce profit per unit first. To break even on total profit, you must sell extra units. The deeper the discount,
-            the faster required volume increases.
+            Discounts reduce profit per unit first, then force volume growth to protect total profit. In this guide scenario, a 10%
+            discount lowers margin from 35.0% to 27.8% and needs about 40% more units to break even on monthly contribution.
           </p>
         </CardContent>
       </Card>
@@ -168,12 +172,43 @@ export default function DiscountImpactGuidePage() {
         <AnalyticalSectionHeading
           eyebrow="Scenario comparison"
           title="Discount depth vs margin and volume pressure"
-          description="Same SKU economics across four promo depths."
+          description="Same SKU economics across five promo depths."
         />
         <ScenarioComparisonTable
           headers={["Discounted price", "New margin", "Extra units needed", "Interpretation"]}
           rows={scenarioRows}
         />
+      </section>
+
+      <section className="space-y-4">
+        <AnalyticalSectionHeading
+          eyebrow="Decision signal"
+          title="When revenue can rise but contribution margin still declines"
+          description="Campaigns can look strong on top-line sales while unit economics weaken underneath."
+        />
+        <Card className="border-border/85 shadow-none">
+          <CardContent className="space-y-3 p-5 text-sm leading-6 text-muted-foreground">
+            <p>
+              Discount campaigns are often judged by revenue and order count. The operating risk appears when the added orders do not
+              offset lower profit per order. In that case, contribution margin declines even with visible sales growth.
+            </p>
+            <p>
+              Pressure-test discount plans with
+              <Link href="/how-to-calculate-profit-margin-after-shipping-and-fees" className="text-primary hover:text-primary/80">
+                {" "}real margin after shipping and fees
+              </Link>
+              , set a hard price floor using the
+              <Link href="/tools/break-even-selling-price-after-import-costs" className="text-primary hover:text-primary/80">
+                {" "}break-even selling price tool
+              </Link>
+              , and validate import overhead with
+              <Link href="/how-to-calculate-landed-cost-for-imported-products" className="text-primary hover:text-primary/80">
+                {" "}landed cost calculations
+              </Link>
+              .
+            </p>
+          </CardContent>
+        </Card>
       </section>
 
       <section className="space-y-4">
@@ -199,6 +234,11 @@ export default function DiscountImpactGuidePage() {
           yAxisLabel="Percent"
           xAxisLabel="Discount depth"
           yTickFormatter={(value) => `${value.toFixed(0)}%`}
+          secondarySeriesIndex={1}
+          secondaryYAxisLabel="Volume lift"
+          secondaryYTickFormatter={(value) => `${value.toFixed(0)}%`}
+          yDomain={{ min: 0, max: 40 }}
+          secondaryYDomain={{ min: 0, max: 600 }}
         />
         <Card className="border-border/85 shadow-none">
           <CardContent className="space-y-2.5 p-5 text-sm leading-6 text-muted-foreground">
@@ -208,8 +248,14 @@ export default function DiscountImpactGuidePage() {
             </p>
             <p>
               Low-margin products are more fragile because new profit per unit gets small quickly. Test assumptions first in the
-              <Link href="/tools/discount-impact-on-margin-calculator" className="text-primary hover:text-primary/80"> discount impact calculator</Link>
-              and cross-check full cost basis in <Link href="/tools/margin-calculator-after-shipping-fees" className="text-primary hover:text-primary/80">margin after shipping fees</Link>.
+              <Link href="/tools/discount-impact-on-margin-calculator" className="text-primary hover:text-primary/80">
+                {" "}discount impact calculator
+              </Link>
+              {" "}and cross-check full cost basis in
+              <Link href="/tools/margin-calculator-after-shipping-fees" className="text-primary hover:text-primary/80">
+                {" "}margin after shipping fees
+              </Link>
+              .
             </p>
           </CardContent>
         </Card>
@@ -244,7 +290,8 @@ export default function DiscountImpactGuidePage() {
         description="Run discount scenarios on your own products and quantify the exact margin and volume tradeoff."
         actions={[
           { label: "Discount Impact Calculator", href: "/tools/discount-impact-on-margin-calculator" },
-          { label: "Margin After Shipping Fees", href: "/tools/margin-calculator-after-shipping-fees" },
+          { label: "How to Calculate Margin After Fees", href: "/how-to-calculate-profit-margin-after-shipping-and-fees" },
+          { label: "Break-even Selling Price Tool", href: "/tools/break-even-selling-price-after-import-costs" },
           { label: "Profit & Margin Hub", href: "/profit-margin-tools" }
         ]}
       />
@@ -260,7 +307,14 @@ export default function DiscountImpactGuidePage() {
 
       <Card className="border-border/85 shadow-none">
         <CardContent className="p-5 text-sm text-muted-foreground">
-          Continue analysis: <Link href="/how-to-calculate-landed-cost-for-imported-products" className="text-primary hover:text-primary/80">landed cost for imported products</Link>
+          Continue analysis:{" "}
+          <Link href="/how-to-calculate-landed-cost-for-imported-products" className="text-primary hover:text-primary/80">
+            landed cost for imported products
+          </Link>
+          {" "}and{" "}
+          <Link href="/landed-cost-formula" className="text-primary hover:text-primary/80">
+            landed cost formula
+          </Link>
           {" "}and{" "}
           <Link href="/how-to-calculate-reorder-point-with-lead-time" className="text-primary hover:text-primary/80">
             reorder point with lead time
@@ -280,7 +334,3 @@ export default function DiscountImpactGuidePage() {
     </div>
   );
 }
-
-
-
-
